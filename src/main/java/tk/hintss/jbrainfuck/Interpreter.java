@@ -4,22 +4,34 @@ package tk.hintss.jbrainfuck;
  * Created by Henry on 1/8/2015.
  */
 public class Interpreter {
-
     // The code to be executed
-    char[] exec;
+    private char[] exec = new char[0];
+
+    // The input to the program
+    private String input = "";
 
     // The program's memory
-    byte[] mem = new byte[1];
+    private byte[] mem = new byte[1];
 
     // current execution point in exec
-    int execPointer = 0;
+    private int execPointer = 0;
 
     // current pointer location
-    int dataPointer = 0;
+    private int dataPointer = 0;
 
-    public void exec(String code, String input) {
-        exec = code.toCharArray();
+    public Interpreter(String code) {
+        StringBuilder sb = new StringBuilder();
 
+        for (char c : code.toCharArray()) {
+            if (c == '>' || c == '<' || c == '+' || c == '-' || c == '.' || c == ',' || c == '[' || c == ']') {
+                sb.append(c);
+            }
+        }
+
+        exec = sb.toString().toCharArray();
+    }
+
+    public void exec() {
         // while we're not at the end of the program
         while (execPointer < exec.length) {
             // run this step
@@ -127,5 +139,9 @@ public class Interpreter {
         }
 
         System.out.println("");
+    }
+
+    public void sendInput(String newInput) {
+        input += newInput;
     }
 }
