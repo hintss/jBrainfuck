@@ -48,66 +48,65 @@ public class Interpreter {
                     break;
                 // if byte at pointer is 0, jump to command after matching ']'
                 case '[':
-                    // how many other '[' we see, so we can skip a matching number of ']'
-                    int encountered = 1;
-
-                    // the address of the matching ']'
-                    int matching = 0;
-
-                    search:
-                    for (int i = execPointer + 1; i < exec.length; i++) {
-                        switch(exec[i]) {
-                            case '[':
-                                encountered++;
-                                break;
-                            case ']':
-                                encountered--;
-
-                                if (encountered == 0) {
-                                    matching = i;
-
-                                    break search;
-                                }
-
-                                break;
-                        }
-                    }
-
                     // set the pointer to the matching ']'
                     if (mem[dataPointer] == 0) {
+                        // how many other '[' we see, so we can skip a matching number of ']'
+                        int encountered = 1;
+
+                        // the address of the matching ']'
+                        int matching = 0;
+
+                        search:
+                        for (int i = execPointer + 1; i < exec.length; i++) {
+                            switch(exec[i]) {
+                                case '[':
+                                    encountered++;
+                                    break;
+                                case ']':
+                                    encountered--;
+
+                                    if (encountered == 0) {
+                                        matching = i;
+
+                                        break search;
+                                    }
+
+                                    break;
+                            }
+                        }
+
                         execPointer = matching;
                     }
 
                     break;
                 // if the byte at pointer is != 0, jump back to command after matching '['
                 case ']':
-                    // how many other ']' we see, so we can skip a matching number of '['
-                    encountered = -1;
-
-                    // the address of the matching '['
-                    matching = 0;
-
-                    search:
-                    for (int i = execPointer - 1; i >= 0; i--) {
-                        switch(exec[i]) {
-                            case '[':
-                                encountered++;
-
-                                if (encountered == 0) {
-                                    matching = i;
-
-                                    break search;
-                                }
-
-                                break;
-                            case ']':
-                                encountered--;
-                                break;
-                        }
-                    }
-
                     // set the pointer to the matching '['
                     if (mem[dataPointer] != 0) {
+                        // how many other ']' we see, so we can skip a matching number of '['
+                        int encountered = -1;
+
+                        // the address of the matching '['
+                        int matching = 0;
+
+                        search:
+                        for (int i = execPointer - 1; i >= 0; i--) {
+                            switch(exec[i]) {
+                                case '[':
+                                    encountered++;
+
+                                    if (encountered == 0) {
+                                        matching = i;
+
+                                        break search;
+                                    }
+
+                                    break;
+                                case ']':
+                                    encountered--;
+                                    break;
+                            }
+                        }
                         execPointer = matching;
                     }
 
