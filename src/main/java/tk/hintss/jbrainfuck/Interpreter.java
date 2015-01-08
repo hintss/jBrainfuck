@@ -1,0 +1,129 @@
+package tk.hintss.jbrainfuck;
+
+/**
+ * Created by Henry on 1/8/2015.
+ */
+public class Interpreter {
+    public static void exec(String code, String input) {
+        // The code to be executed
+        char[] exec = code.toCharArray();
+
+        // The program's memory
+        byte[] mem = new byte[1];
+
+        // current execution point in exec
+        int execPointer = 0;
+
+        // current pointer location
+        int dataPointer = 0;
+
+        // while we're not at the end of the program
+        while (execPointer < exec.length) {
+            // run this step
+            switch(exec[execPointer]) {
+                // increment pointer
+                case '>':
+                    dataPointer++;
+                    break;
+                // decrement pointer
+                case '<':
+                    dataPointer--;
+                    break;
+                // increment byte at the pointer
+                case '+':
+                    mem[dataPointer]++;
+                    break;
+                // decrement byte at the pointer
+                case '-':
+                    mem[dataPointer]--;
+                    break;
+                // print the byte at the pointer
+                case '.':
+                    System.out.print((char) mem[dataPointer]);
+                    break;
+                // take a byte from input, store it's value at current pointer
+                case ',':
+                    mem[dataPointer] = ((byte) input.charAt(0));
+                    input = input.substring(1);
+                    break;
+                // if byte at pointer is 0, jump to command after matching ']'
+                case '[':
+                    // how many other '[' we see, so we can skip a matching number of ']'
+                    int encountered = 1;
+
+                    // the address of the matching ']'
+                    int matching = 0;
+
+                    search:
+                    for (int i = execPointer + 1; i < exec.length; i++) {
+                        switch(exec[i]) {
+                            case '[':
+                                encountered++;
+                                break;
+                            case ']':
+                                encountered--;
+
+                                if (encountered == 0) {
+                                    matching = i;
+
+                                    break search;
+                                }
+
+                                break;
+                        }
+                    }
+
+                    // set the pointer to the matching ']'
+                    if (mem[dataPointer] == 0) {
+                        execPointer = matching;
+                    }
+
+                    break;
+                // if the byte at pointer is != 0, jump back to command after matching '['
+                case ']':
+                    // how many other ']' we see, so we can skip a matching number of '['
+                    encountered = -1;
+
+                    // the address of the matching '['
+                    matching = 0;
+
+                    search:
+                    for (int i = execPointer - 1; i >= 0; i--) {
+                        switch(exec[i]) {
+                            case '[':
+                                encountered++;
+
+                                if (encountered == 0) {
+                                    matching = i;
+
+                                    break search;
+                                }
+
+                                break;
+                            case ']':
+                                encountered--;
+                                break;
+                        }
+                    }
+
+                    // set the pointer to the matching '['
+                    if (mem[dataPointer] != 0) {
+                        execPointer = matching;
+                    }
+
+                    break;
+            }
+
+            // increase the memory array size if we exceeded it
+            if (dataPointer >= mem.length) {
+                byte[] newMem = new byte[mem.length * 2];
+                System.arraycopy(mem, 0, newMem, 0, mem.length);
+                mem = newMem;
+            }
+
+            execPointer++;
+        }
+
+        System.out.println("");
+    }
+}
