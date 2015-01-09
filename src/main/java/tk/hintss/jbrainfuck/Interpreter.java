@@ -10,6 +10,9 @@ public class Interpreter {
     // The input to the program
     private String input = "";
 
+    // The output of the program
+    private StringBuilder output = new StringBuilder();
+
     // The program's memory
     private byte[] mem = new byte[1];
 
@@ -54,7 +57,7 @@ public class Interpreter {
                     break;
                 // print the byte at the pointer
                 case '.':
-                    System.out.print((char) mem[dataPointer]);
+                    output.append((char) mem[dataPointer]);
                     break;
                 // take a byte from input, store it's value at current pointer
                 case ',':
@@ -143,5 +146,9 @@ public class Interpreter {
 
     public void sendInput(String newInput) {
         input += newInput;
+    }
+
+    public String getOutput() {
+        return output.toString();
     }
 }
