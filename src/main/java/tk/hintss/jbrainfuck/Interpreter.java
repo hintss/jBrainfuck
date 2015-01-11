@@ -151,4 +151,12 @@ public class Interpreter {
     public String getOutput() {
         return output.toString();
     }
+
+    public void reset() {
+        input = "";
+        output = new StringBuilder();
+        mem = new byte[1];
+        execPointer = 0;
+        dataPointer = 0;
+    }
 }
