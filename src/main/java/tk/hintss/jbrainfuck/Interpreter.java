@@ -13,6 +13,9 @@ public class Interpreter {
     // The output of the program
     private StringBuilder output = new StringBuilder();
 
+    // The output of the program since the last time this was checked
+    private StringBuilder newOutput = new StringBuilder();
+
     // The program's memory
     private byte[] mem = new byte[1];
 
@@ -22,10 +25,13 @@ public class Interpreter {
     // current pointer location
     private int dataPointer = 0;
 
+    private InterpreterState currentState = InterpreterState.WAITING_TO_START;
+
     public Interpreter(String code) {
         StringBuilder sb = new StringBuilder();
 
         for (char c : code.toCharArray()) {
+            // exclude non-brainfuck characters
             if (c == '>' || c == '<' || c == '+' || c == '-' || c == '.' || c == ',' || c == '[' || c == ']') {
                 sb.append(c);
             }
@@ -35,6 +41,8 @@ public class Interpreter {
     }
 
     public void exec() {
+        currentState = InterpreterState.RUNNING;
+
         // while we're not at the end of the program
         while (execPointer < exec.length) {
             // run this step
@@ -58,6 +66,7 @@ public class Interpreter {
                 // print the byte at the pointer
                 case '.':
                     output.append((char) mem[dataPointer]);
+                    newOutput.append((char) mem[dataPointer]);
                     break;
                 // take a byte from input, store it's value at current pointer
                 case ',':
@@ -141,6 +150,8 @@ public class Interpreter {
             execPointer++;
         }
 
+        currentState = InterpreterState.DONE;
+
         System.out.println("");
     }
 
@@ -152,11 +163,21 @@ public class Interpreter {
         return output.toString();
     }
 
+    public String getNewOutput() {
+        String output = newOutput.toString();
+        newOutput = new StringBuilder();
+        return output;
+    }
+
     public void reset() {
         input = "";
         output = new StringBuilder();
         mem = new byte[1];
         execPointer = 0;
         dataPointer = 0;
+    }
+
+    public InterpreterState getState() {
+        return currentState;
     }
 }
