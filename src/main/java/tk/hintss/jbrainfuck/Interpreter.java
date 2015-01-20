@@ -25,8 +25,13 @@ public class Interpreter {
     // current pointer location
     private int dataPointer = 0;
 
+    // The interpreter's current state
     private InterpreterState currentState = InterpreterState.WAITING_TO_START;
 
+    /**
+     * Creates a new Interpreter object that will run this brainfuck
+     * @param code The BrainFuck code for this interpreter to run
+     */
     public Interpreter(String code) {
         StringBuilder sb = new StringBuilder();
 
@@ -40,6 +45,9 @@ public class Interpreter {
         exec = sb.toString().toCharArray();
     }
 
+    /**
+     * Runs the BrainFuck program
+     */
     public void exec() {
         currentState = InterpreterState.RUNNING;
 
@@ -155,28 +163,48 @@ public class Interpreter {
         System.out.println("");
     }
 
+    /**
+     * Sends input to the brainfuck program
+     * @param newInput The input to give it
+     */
     public void sendInput(String newInput) {
         input += newInput;
     }
 
+    /**
+     * Gets any output that this program has generated so far
+     * @return All the output so far
+     */
     public String getOutput() {
         return output.toString();
     }
 
+    /**
+     * Gets any new output that was generated since the last time this function was called
+     * @return Any new output that may have been created
+     */
     public String getNewOutput() {
         String output = newOutput.toString();
         newOutput = new StringBuilder();
         return output;
     }
 
+    /**
+     * Resets this Interpreter to it's state before its first runs and inputs
+     */
     public void reset() {
         input = "";
         output = new StringBuilder();
+        newOutput = new StringBuilder();
         mem = new byte[1];
         execPointer = 0;
         dataPointer = 0;
     }
 
+    /**
+     * Gets the current state of this Interpreter
+     * @return This interpreter's current state
+     */
     public InterpreterState getState() {
         return currentState;
     }
