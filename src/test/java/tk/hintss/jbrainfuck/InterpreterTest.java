@@ -31,5 +31,9 @@ public class InterpreterTest {
         bfInter = new Interpreter("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[>+<-]>."); // A
         bfInter.exec();
         assertEquals("[ and ] work", "A", bfInter.getOutput());
+
+        bfInter = new Interpreter("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[>+<-[>+<-]]>."); // A
+        bfInter.exec();
+        assertEquals("nested [ and ] work", "A", bfInter.getOutput());
     }
 }
