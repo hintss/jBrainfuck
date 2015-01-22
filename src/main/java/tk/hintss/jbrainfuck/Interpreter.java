@@ -1,5 +1,7 @@
 package tk.hintss.jbrainfuck;
 
+import tk.hintss.jbrainfuck.derivatives.BfDerivative;
+
 /**
  * Created by Henry on 1/8/2015.
  */
@@ -29,7 +31,7 @@ public class Interpreter {
     private InterpreterState currentState = InterpreterState.WAITING_TO_START;
 
     /**
-     * Creates a new Interpreter object that will run this brainfuck
+     * Creates a new Interpreter object that will run this brainfuck code
      * @param code The BrainFuck code for this interpreter to run
      */
     public Interpreter(String code) {
@@ -43,6 +45,15 @@ public class Interpreter {
         }
 
         exec = sb.toString().toCharArray();
+    }
+
+    /**
+     * Creates a new Interpreter object that will run this $brainfuckDerivative code
+     * @param code The $brainfuckDerivative code for this interpreter to run
+     * @param derivative The $brainfuckDerivative
+     */
+    public Interpreter(String code, BfDerivative derivative) {
+        this(derivative.process(code));
     }
 
     /**
