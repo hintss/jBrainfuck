@@ -89,9 +89,14 @@ public class Interpreter {
                     break;
                 // take a byte from input, store it's value at current pointer
                 case ',':
-                    mem[dataPointer] = ((byte) input.charAt(0));
-                    input = input.substring(1);
-                    break;
+                    if (input.length() > 0) {
+                        mem[dataPointer] = ((byte) input.charAt(0));
+                        input = input.substring(1);
+                        break;
+                    } else {
+                        currentState = InterpreterState.WAITING_FOR_INPUT;
+                        return;
+                    }
                 // if byte at pointer is 0, jump to command after matching ']'
                 case '[':
                     // set the pointer to the matching ']'

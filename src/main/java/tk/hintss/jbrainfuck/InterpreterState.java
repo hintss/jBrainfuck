@@ -6,5 +6,6 @@ package tk.hintss.jbrainfuck;
 public enum InterpreterState {
     WAITING_TO_START,
     RUNNING,
-    DONE;
+    WAITING_FOR_INPUT,
+    DONE
 }

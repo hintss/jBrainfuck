@@ -5,7 +5,7 @@ package tk.hintss.jbrainfuck;
  */
 public class Main {
     public static void main(String[] args) {
-        Interpreter interpreter = new Interpreter("++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.");
+        Interpreter interpreter = new Interpreter("++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."); // Hello World!
         interpreter.exec();
         System.out.println(interpreter.getOutput());
     }
