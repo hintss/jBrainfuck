@@ -16,6 +16,10 @@ public class InterpreterTest {
         assertEquals("getNewOutput() returns new output", "\0", bfInter.getNewOutput());
         assertEquals("getNewOutput() ONLY returns new output", "", bfInter.getNewOutput());
 
+        bfInter = new Interpreter("asdf"); // A
+        bfInter.exec();
+        assertEquals("invalid characters are cut out", "", bfInter.getOutput());
+
         bfInter = new Interpreter("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++."); // A
         bfInter.exec();
         assertEquals("+ increments properly", "A", bfInter.getOutput());
